@@ -20,7 +20,6 @@
 
     <div
       ref="wrapper"
-      :style="{ [direction === 'vertical' ? 'minHeight' : 'minWidth']: totalSize + 'px' }"
       class="vue-recycle-scroller__item-wrapper"
     >
       <div
@@ -199,6 +198,12 @@ export default {
       this.updateVisibleItems(true)
       this.ready = true
     })
+  },
+
+  updated () {
+    if (this.$refs.wrapper) {
+      this.$refs.wrapper.style[this.direction === 'vertical' ? 'minHeight' : 'minWidth'] = this.totalSize + 'px'
+    }
   },
 
   beforeDestroy () {

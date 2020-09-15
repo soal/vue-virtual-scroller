@@ -1,10 +1,12 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
   typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
-  (global = global || self, factory(global['vue-virtual-scroller'] = {}, global.Vue));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['vue-virtual-scroller'] = {}, global.Vue));
 }(this, (function (exports, Vue) { 'use strict';
 
-  Vue = Vue && Object.prototype.hasOwnProperty.call(Vue, 'default') ? Vue['default'] : Vue;
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var Vue__default = /*#__PURE__*/_interopDefaultLegacy(Vue);
 
   var config = {
     itemsLimit: 1000
@@ -80,7 +82,7 @@
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
 
@@ -92,9 +94,12 @@
     return arr2;
   }
 
-  function _createForOfIteratorHelper(o) {
+  function _createForOfIteratorHelper(o, allowArrayLike) {
+    var it;
+
     if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-      if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {
+      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+        if (it) o = it;
         var i = 0;
 
         var F = function () {};
@@ -120,8 +125,7 @@
       throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     }
 
-    var it,
-        normalCompletion = true,
+    var normalCompletion = true,
         didErr = false,
         err;
     return {
@@ -659,7 +663,7 @@
     directives: {
       ObserveVisibility: ObserveVisibility
     },
-    props: _objectSpread2({}, props, {
+    props: _objectSpread2(_objectSpread2({}, props), {}, {
       itemSize: {
         type: Number,
         default: null
@@ -780,6 +784,11 @@
 
         _this.ready = true;
       });
+    },
+    updated: function updated() {
+      if (this.$refs.wrapper) {
+        this.$refs.wrapper.style[this.direction === 'vertical' ? 'minHeight' : 'minWidth'] = this.totalSize + 'px';
+      }
     },
     beforeDestroy: function beforeDestroy() {
       this.removeListeners();
@@ -1255,7 +1264,7 @@
   const __vue_script__ = script;
   /* template */
   var __vue_render__ = function() {
-    var _obj, _obj$1;
+    var _obj;
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -1296,15 +1305,7 @@
         _vm._v(" "),
         _c(
           "div",
-          {
-            ref: "wrapper",
-            staticClass: "vue-recycle-scroller__item-wrapper",
-            style:
-              ((_obj$1 = {}),
-              (_obj$1[_vm.direction === "vertical" ? "minHeight" : "minWidth"] =
-                _vm.totalSize + "px"),
-              _obj$1)
-          },
+          { ref: "wrapper", staticClass: "vue-recycle-scroller__item-wrapper" },
           _vm._l(_vm.pool, function(view) {
             return _c(
               "div",
@@ -1377,7 +1378,7 @@
     
 
     
-    const __vue_component__ = normalizeComponent(
+    const __vue_component__ = /*#__PURE__*/normalizeComponent(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
@@ -1429,7 +1430,7 @@
         vscrollResizeObserver: this.$_resizeObserver
       };
     },
-    props: _objectSpread2({}, props, {
+    props: _objectSpread2(_objectSpread2({}, props), {}, {
       minItemSize: {
         type: [Number, String],
         required: true
@@ -1653,7 +1654,7 @@
     
 
     
-    const __vue_component__$1 = normalizeComponent(
+    const __vue_component__$1 = /*#__PURE__*/normalizeComponent(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
@@ -1893,7 +1894,7 @@
     
 
     
-    const __vue_component__$2 = normalizeComponent(
+    const __vue_component__$2 = /*#__PURE__*/normalizeComponent(
       {},
       __vue_inject_styles__$2,
       __vue_script__$2,
@@ -1914,7 +1915,7 @@
     } : _ref$idProp;
 
     var store = {};
-    var vm = new Vue({
+    var vm = new Vue__default['default']({
       data: function data() {
         return {
           store: store
